@@ -93,7 +93,7 @@ def text(m):
       else:
          if m.text=='Обо мне':
             bot.send_message(m.chat.id, 'Привет, '+x['name']+'!\n'+
-                             'Голод: '+str(x['hunger'])+'/'+str(x['maxhunger'])+'🍗/n'+
+                             'Голод: '+str(x['hunger'])+'/'+str(x['maxhunger'])+'🍗\n'+
                              'Уровень: '+str(x['level'])+'\n'+
                              'Опыт: '+str(x['exp'])+'\n'+
                              'Инвентарь: /inventory')
