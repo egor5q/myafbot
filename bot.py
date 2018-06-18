@@ -17,8 +17,7 @@ from requests.exceptions import ConnectionError
 token = os.environ['TELEGRAM_TOKEN']
 bot = telebot.TeleBot(token)
 vip=[441399484, 55888804]
-games={}
-skills=[]
+
 
 client1=os.environ['database']
 client=MongoClient(client1)
@@ -34,7 +33,7 @@ def start(m):
       kb.add(types.KeyboardButton('👷🏻Добыча'))
       bot.send_message(m.chat.id, '''Здраствуй, ты попал в игру "Survival simulator"!
 *Предыстория:*
-На земле появился вирус, превращающий людей в зомби, передающийся через укус. В скором времени Почти всё
+На земле появился вирус, превращающий людей в зомби, передающийся через укус. В скором времени почти всё
 население земли было заражено, и оставшимся в живых ничего не оставалось, кроме переселения на необитаемые острова.
 Так как все, кого вы знали, были заражены, вы в одиночку построили плот, взяли минимум необходимых вещей, и отправились в плавание.
 Через 3 дня плавания, в 5 часов утра, вы увидели берег какого-то острова. Первым делом, после высадки, вы решили, что нужно построить дом.
@@ -97,14 +96,68 @@ def text(m):
                              'Уровень: '+str(x['level'])+'\n'+
                              'Опыт: '+str(x['exp'])+'\n'+
                              'Инвентарь: /inventory')
+            
          elif m.text=='Добыча':
             kb=types.ReplyKeyboardMarkup()
             kb.add(types.KeyboardButton('🌲Лес'))
+            kb.add(types.KeyboardButton('🕳Пещера'))
+            kb.add(types.KeyboardButton('🐖Охота'))
+            kb.add(types.KeyboardButton('Назад'))
             bot.send_message(m.chat.id, 'Куда хотите отправиться?', reply_markup=kb)
+            
+         elif m.text=='🌲Лес':
+          if x['farming']==0:
+            bot.send_message(m.chat.id, 'Вы отправились в лес. Вернётесь через 15 минут.')
+            users.update_one({'id':m.from_user.id}, {'$set':{'farming':1}})
+            t=threading.Timer(900, forest, args=[m.from_user.id])
+            t.start()
+          else:
+            bot.send_message(m.chat.id, 'Вы уже заняты добычей ресурсов, попробуйте позже.')
+            
             
                
             
-
+def forest(id):
+   woodtexts=['Вы вернулись из леса. В этот раз удалось добыть:\n']
+   wood=random.randint(1,100)
+   rock=random.randint(1,100)
+   meat=random.randint(1,100)
+   gwood=0
+   grock=0
+   gmeat=0
+   if wood<=75:
+      wood=1
+      gwood=random.randint(4, 15)
+   else:
+      wood=0
+   if rock<=15:
+      rock=1
+      grock=random.randint(1,8)
+   else:
+      rock=0
+   if meat<=15:
+      meat=1
+      gmeat=random.randint(1,3)
+   else:
+      meat=0
+   recources=''  
+   text=random.choice(woodtexts)
+   if wood==1:
+      recources+='Дерево: '+str(gwood)+'\n'
+   if rock==1:
+      recources+='Камень: '+str(grock)+'\n'
+   if meat==1:
+      recources+='Мясо: '+str(gmeat)+'\n'
+   text=random.choice(woodtexts)
+   if wood==0 and rock==0 and meat==0:
+      text='В этот раз ничего добыть не удалось. Зато вы прогулялись по лесу и хорошо отдохнули!'
+    
+   users.update_one({'id':id}, {'$inc':{'wood':gwood}})
+   users.update_one({'id':id}, {'$inc':{'meat':gmeat}})
+   users.update_one({'id':id}, {'$inc':{'rock':grock}})
+   users.update_one({'id':id}, {'$set':{'farming':0}})
+   bot.send_message(id, text+recources)
+            
 
 def tforest(id):
    kb=types.ReplyKeyboardMarkup()
