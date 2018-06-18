@@ -10,8 +10,8 @@ from emoji import emojize
 from telebot import types
 from pymongo import MongoClient
 
-from requests.exceptions import ReadTimeout
-from requests.exceptions import ConnectionError
+#from requests.exceptions import ReadTimeout
+#from requests.exceptions import ConnectionError
 
 
 token = os.environ['TELEGRAM_TOKEN']
