@@ -76,7 +76,7 @@ def text(m):
             kb.add(types.KeyboardButton('🌲Лес'))
             bot.send_message(m.chat.id, 'Куда вы хотите направиться?', reply_markup=kb)
          elif m.text=='🌲Лес' and x['tforest']==0:
-            bot.send_message(m.chat.id, 'Вы отправились в лес. Вернётесь через минуту (Минута вашего времени = 30 минут жизни на острове).')
+            bot.send_message(m.chat.id, 'Вы отправились в лес. Вернётесь через минуту (Минута вашего времени = 15 минут жизни на острове).')
             users.update_one({'id':m.from_user.id}, {'$set':{'tforest':1}})
             t=threading.Timer(60, tforest, args=[m.from_user.id])
             t.start()
@@ -97,6 +97,10 @@ def text(m):
                              'Уровень: '+str(x['level'])+'\n'+
                              'Опыт: '+str(x['exp'])+'\n'+
                              'Инвентарь: /inventory')
+         elif m.text=='Добыча':
+            kb=types.ReplyKeyboardMarkup()
+            kb.add(types.KeyboardButton('🌲Лес'))
+            bot.send_message(m.chat.id, 'Куда хотите отправиться?', reply_markup=kb)
             
                
             
@@ -154,7 +158,9 @@ def createuser(id, name):
           'level':1,
           'tutorial':1,
           'tforest':0,
-          'thouse':0
+          'thouse':0,
+          'building':0,
+          'farming':0
          }
 
 
