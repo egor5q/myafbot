@@ -90,26 +90,7 @@ def thouse(id):
                    
               
          
-  
-if True:
- try:
-   print('7777')
-   bot.polling(none_stop=True,timeout=600)
- except (requests.ReadTimeout):
-        print('!!! READTIME OUT !!!')           
-        bot.stop_polling()
-        time.sleep(1)
-        check = True
-        while check==True:
-          try:
-            bot.polling(none_stop=True,timeout=1)
-            print('checkkk')
-            check = False
-          except (requests.exceptions.ConnectionError):
-            time.sleep(1)
-   
-   
-   
+ 
 def createuser(id, name):
    return{'id':id,
           'name':name,
@@ -141,9 +122,27 @@ def createuser(id, name):
           'tforest':0,
           'thouse':0
          }
-          
-          
-          
+
+
+if True:
+ try:
+   print('7777')
+   bot.polling(none_stop=True,timeout=600)
+ except (requests.ReadTimeout):
+        print('!!! READTIME OUT !!!')           
+        bot.stop_polling()
+        time.sleep(1)
+        check = True
+        while check==True:
+          try:
+            bot.polling(none_stop=True,timeout=1)
+            print('checkkk')
+            check = False
+          except (requests.exceptions.ConnectionError):
+            time.sleep(1)
+   
+   
+        
 
    
 #if __name__ == '__main__':
