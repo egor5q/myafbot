@@ -45,7 +45,8 @@ def start(m):
 @bot.message_handler(content_types=['text'])
 def text(m):
    if m.from_user.id==m.chat.id:
-      x=users.find_one({'id':m.from_user.id})
+    x=users.find_one({'id':m.from_user.id})
+    if x!=None:
       if x['tutorial']==1:
          if m.text=='👷🏻Добыча':
             kb=types.ReplyKeyboardMarkup()
