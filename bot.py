@@ -26,7 +26,7 @@ db=client.farmer
 users=db.users
 
 
-bot.message_handler(commands=['start'])
+@bot.message_handler(commands=['start'])
 def start(m):
    if users.find_one({'id':m.from_user.id})==None and m.chat.id==m.from_user.id:
       users.insert_one(createuser(m.from_user.id, m.from_user.first_name))
