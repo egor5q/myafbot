@@ -249,7 +249,9 @@ def forest(id):
    grecipe=random.randint(1,100)
    if grecipe<=15:
       recipe=random.choice(recipes)
-      if recipe not in x['recipes']:
+      if len(x['recipes'])<len(recipes):
+         while recipe in x['recipes']:
+            recipe=random.choice(recipes)
          users.update_one({'id':id}, {'$push':{'recipes':recipe}})
          recources+='🔴Рецепт: '+recipetoname(recipe)
       
@@ -316,7 +318,9 @@ def hunt(id):
    grecipe=random.randint(1,100)
    if grecipe<=15:
       recipe=random.choice(recipes)
-      if recipe not in x['recipes']:
+      if len(x['recipes'])<len(recipes):
+         while recipe in x['recipes']:
+            recipe=random.choice(recipes)
          users.update_one({'id':id}, {'$push':{'recipes':recipe}})
          recources+='🔴Рецепт: '+recipetoname(recipe)
       
@@ -406,7 +410,9 @@ def cave(id):
    if grecipe<=15:
       x=users.find_one({'id':id})
       recipe=random.choice(recipes)
-      if recipe not in x['recipes']:
+      if len(x['recipes'])<len(recipes):
+         while recipe in x['recipes']:
+            recipe=random.choice(recipes)
          users.update_one({'id':id}, {'$push':{'recipes':recipe}})
          recources+='🔴Рецепт: '+recipetoname(recipe)
       
