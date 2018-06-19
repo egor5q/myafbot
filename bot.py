@@ -253,7 +253,7 @@ def hunt(id):
       fish=0
       
    recources=''  
-   text=random.choice(woodtexts)
+   text=random.choice(hunttexts)
    if meat==1:
       recources+='⚪️Мясо: '+str(gmeat)+'\n'
    if fish==1:
