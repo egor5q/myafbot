@@ -149,11 +149,11 @@ def forest(id):
    recources=''  
    text=random.choice(woodtexts)
    if wood==1:
-      recources+='Дерево: '+str(gwood)+'\n'
+      recources+='⚪️Дерево: '+str(gwood)+'\n'
    if rock==1:
-      recources+='Камень: '+str(grock)+'\n'
+      recources+='🔵Камень: '+str(grock)+'\n'
    if meat==1:
-      recources+='Мясо: '+str(gmeat)+'\n'
+      recources+='🔵Мясо: '+str(gmeat)+'\n'
    text=random.choice(woodtexts)
    if wood==0 and rock==0 and meat==0:
       text='В этот раз ничего добыть не удалось. Зато вы прогулялись по лесу и хорошо отдохнули!'
@@ -161,6 +161,88 @@ def forest(id):
    users.update_one({'id':id}, {'$inc':{'wood':gwood}})
    users.update_one({'id':id}, {'$inc':{'meat':gmeat}})
    users.update_one({'id':id}, {'$inc':{'rock':grock}})
+   users.update_one({'id':id}, {'$set':{'farming':0}})
+   try:
+      bot.send_message(id, text+recources)
+   except:
+      pass
+   
+   
+   
+def cave(id):
+   cavetexts=['Вы вернулись из пещеры. В этот раз удалось добыть:\n']
+   iron=random.randint(1,100)
+   gold=random.randint(1,100)
+   diamond=random.randint(1,1000)
+   ruby=random.randint(1,1000)
+   rock=random.randint(1,100)
+   coal=random.randint(1,100)
+   giron=0
+   grock=0
+   ggold=0
+   gdiamond=0
+   gcoal=0
+   
+   if iron<=20:
+      iron=1
+      giron=random.randint(2, 10)
+   else:
+      iron=0
+      
+   if rock<=50:
+      rock=1
+      grock=random.randint(5,14)
+   else:
+      rock=0
+      
+   if gold<=5:
+      gold=1
+      ggold=random.randint(1,5)
+   else:
+      gold=0
+      
+   if diamond<=2:
+      diamond=1
+      gdiamond=random.randint(1,3)
+   else:
+      diamond=0
+      
+   if coal<=40:
+      coal=1
+      gcoal=random.randint(1,15)
+   else:
+      coal=0
+      
+   if ruby<=1:
+      ruby=1
+      gruby=random.randint(1,3)
+   else:
+      ruby=0
+      
+   recources=''  
+   text=random.choice(cavetexts)
+   if rock==1:
+      recources+='⚪️Камень: '+str(grock)+'\n'
+   if coal==1:
+      recources+='⚪️Уголь: '+str(gcoal)+'\n'
+   if iron==1:
+      recources+='🔵Железо: '+str(giron)+'\n'
+   if gold==1:
+      recources+='🔴Золото: '+str(ggold)+'\n'
+   if diamond==1:
+      recources+='🔶Алмазы: '+str(gdiamond)+'\n'
+   if ruby==1:
+      recources+='🔶Рубины: '+str(gruby)+'\n'
+   text=random.choice(woodtexts)
+   if rock==0 and iron==0 and coal==0 and gold==0 and diamond==0 and ruby==0:
+      text='В этот раз ничего добыть не удалось - пещера оказалось слишком опасной, и вы решили не рисковать.'
+    
+   users.update_one({'id':id}, {'$inc':{'rock':grock}})
+   users.update_one({'id':id}, {'$inc':{'coal':gcoal}})
+   users.update_one({'id':id}, {'$inc':{'iron':giron}})
+   users.update_one({'id':id}, {'$inc':{'gold':ggold}})
+   users.update_one({'id':id}, {'$inc':{'diamond':gdiamond}})
+   users.update_one({'id':id}, {'$inc':{'ruby':gruby}})
    users.update_one({'id':id}, {'$set':{'farming':0}})
    try:
       bot.send_message(id, text+recources)
