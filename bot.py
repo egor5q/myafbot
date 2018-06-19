@@ -27,7 +27,7 @@ recipes=['furnance', 'cookedmeat', 'fountain', 'bread', 'fishingrod', 'fishhambu
 #            users.update_many({}, {'$set':{'craftable.item':0}})
 #            print('yes')
 
-def recipetoname():
+def recipetoname(x):
    text='У рецепта нет названия, сообщите об этом разработчику.'
    if x=='furnance':
       text='Печь'
@@ -168,7 +168,7 @@ def text(m):
             bot.send_message(m.chat.id, 'Дома вы можете крафтить полезные вещи и строить дополнительные строения.', reply_markup=kb)
             
          elif m.text=='Крафт':
-            kb=types.ReplyKeyboardMarkup()
+            x=users.find_one({'id':m.from_user.id})
             
          elif m.text=='🌲Лес':
           if x['farming']==0:
