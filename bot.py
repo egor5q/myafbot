@@ -18,6 +18,31 @@ token = os.environ['TELEGRAM_TOKEN']
 bot = telebot.TeleBot(token)
 vip=[441399484, 55888804]
 
+craftable=['Бутерброд с рыбой','Приготовленное мясо','Печь','Колодец','Хлеб','Удочка','','','','','','','','','','','','']
+recipes=['furnance', 'cookedmeat', 'fountain', 'bread', 'fishingrod', 'fishhamburger']
+
+@bot.message_handler(commands=['update'])
+def upd(m):
+        if m.from_user.id==441399484:
+            users.update_many({}, {'$set':{'recipes':[]}})
+            print('yes')
+
+def recipetoname():
+   text='У рецепта нет названия, сообщите об этом разработчику.'
+   if x=='furnance':
+      text='Печь'
+   if x=='cookedmeat':
+      text='Приготовленное мясо'
+   if x=='fountain':
+      text='Колодец'
+   if x=='bread':
+      text='Хлеб'
+   if x=='fishingrod':
+      text='Удочка'
+   if x=='fishhamburger':
+      text='Бутерброд с рыбой'
+   return text
+
 
 client1=os.environ['database']
 client=MongoClient(client1)
@@ -117,7 +142,7 @@ def text(m):
          elif m.text=='⛺️Дом' and x['thouse']==0:
             users.update_one({'id':m.from_user.id}, {'$set':{'thouse':1}})
             bot.send_message(m.chat.id, 'Вы отправились строить дом. Вернётесь через 2 минуты.')
-            users.update_one({'id':m.from_user.id}, {'$inc':{'wood':-1000}})
+            users.update_one({'id':m.from_user.id}, {'$set':{'wood':0}})
             t=threading.Timer(120, thouse, args=[m.from_user.id])
             t.start()
       else:
@@ -133,8 +158,17 @@ def text(m):
             kb.add(types.KeyboardButton('🌲Лес'))
             kb.add(types.KeyboardButton('🕳Пещера'))
             kb.add(types.KeyboardButton('🐖Охота'))
-            kb.add(types.KeyboardButton('Назад'))
+            kb.add(types.KeyboardButton('↩️Назад'))
             bot.send_message(m.chat.id, 'Куда хотите отправиться?', reply_markup=kb)
+            
+         elif m.text=='Дом':
+            kb=types.ReplyKeyboardMarkup()
+            kb.add(types.KeyboardButton('⚒Крафт'))
+            kb.add(types.KeyboardButton('↩️Назад'))
+            bot.send_message(m.chat.id, 'Дома вы можете крафтить полезные вещи и строить дополнительные строения.', reply_markup=kb)
+            
+         elif m.text=='Крафт':
+            kb=types.ReplyKeyboardMarkup()
             
          elif m.text=='🌲Лес':
           if x['farming']==0:
@@ -203,6 +237,13 @@ def forest(id):
       recources+='🔵Камень: '+str(grock)+'\n'
    if meat==1:
       recources+='🔵Мясо: '+str(gmeat)+'\n'
+   
+   grecipe=random.randint(1,100)
+   if grecipe<=10:
+      recipe=random.choice(recipes)
+      users.update_one({'id':id}, {'$push':{'recipes':recipe}})
+      recources+='🔴Рецепт: '+recipetoname(recipe)
+      
    text=random.choice(woodtexts)
    if wood==0 and rock==0 and meat==0:
       text='В этот раз ничего добыть не удалось. Зато вы прогулялись по лесу и хорошо отдохнули!'
@@ -262,6 +303,13 @@ def hunt(id):
       recources+='🔵Яйца: '+str(geggs)+'\n'
    if mushroom==1:
       recources+='🔶Грибы: '+str(gmushroom)+'\n'
+      
+   grecipe=random.randint(1,100)
+   if grecipe<=10:
+      recipe=random.choice(recipes)
+      users.update_one({'id':id}, {'$push':{'recipes':recipe}})
+      recources+='🔴Рецепт: '+recipetoname(recipe)
+      
    text=random.choice(hunttexts)
    if meat==0 and fish==0 and eggs==0 and mushroom==0:
       text='В этот раз никого поймать не удалось - добыча была слишком быстрой.'
@@ -343,6 +391,13 @@ def cave(id):
       recources+='🔶Алмазы: '+str(gdiamond)+'\n'
    if ruby==1:
       recources+='🔶Рубины: '+str(gruby)+'\n'
+      
+   grecipe=random.randint(1,100)
+   if grecipe<=10:
+      recipe=random.choice(recipes)
+      users.update_one({'id':id}, {'$push':{'recipes':recipe}})
+      recources+='🔴Рецепт: '+recipetoname(recipe)
+      
    text=random.choice(cavetexts)
    if rock==0 and iron==0 and coal==0 and gold==0 and diamond==0 and ruby==0:
       text='В этот раз ничего добыть не удалось - пещера оказалось слишком опасной, и вы решили не рисковать.'
@@ -359,11 +414,11 @@ def cave(id):
    except:
       pass
             
-
+      
 def tforest(id):
    kb=types.ReplyKeyboardMarkup()
    kb.add(types.KeyboardButton('🔨Постройка'))
-   users.update_one({'id':id}, {'$inc':{'wood':1000}})
+   users.update_one({'id':id}, {'$set':{'wood':1000}})
    try:
       bot.send_message(id, 'Прошло пол часа. С помощью топора, который вы взяли с собой в путь, вы добыли 1000 ед. дерева -'+
    ' Этого должно хватить на постройку дома. Чтобы начать постройку, нажмите кнопку "🔨Постройка", и выберите пункт "⛺️Дом".', reply_markup=kb)
@@ -419,7 +474,8 @@ def createuser(id, name):
           'tforest':0,
           'thouse':0,
           'building':0,
-          'farming':0
+          'farming':0,
+          'recipes':[]
          }
 
 
