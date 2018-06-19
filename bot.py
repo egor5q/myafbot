@@ -109,7 +109,25 @@ def inventory(m):
          text='Инвентарь пуст!'
       bot.send_message(m.chat.id, text)
       
-      
+   
+   recipes=['furnance', 'cookedmeat', 'fountain', 'bread', 'fishingrod', 'fishhamburger']
+def recipetocraft(x):
+   text='Рецепта нет! Обратитесь к разработчику.'
+   if x=='furnance':
+      text='Печь: 100 (Камень), 10 (Дерево) (/furnance).\n'
+   if x=='cookedmeat':
+      text='Приготовленное мясо: 1 (Мясо), 1 (Уголь) (/meat).\n'
+   if x=='fountain':
+      text='Колодец: 150 (Камень), 20 (Дерево) (/fountain).\n'
+   if x=='bread':
+      text='Хлеб: 10 пшена (/bread).\n'
+   if x=='fishingrod':
+      text='Удочка: 40 (Дерево), 10 (Нитки) (/rod).\n'
+   if x=='fishhamburger':
+      text='Бутерброд с рыбой: 15 (Рыба), 10 (Хлеб) (/rod).\n'
+   return text
+   
+   
 @bot.message_handler(commands=['help'])
 def help(m):
    bot.send_message(m.chat.id, '*Что обозначают значки ⚪️,🔵,🔴,🔶 около добытых ресурсов?*\n'+
@@ -169,6 +187,12 @@ def text(m):
             
          elif m.text=='Крафт':
             x=users.find_one({'id':m.from_user.id})
+            text='Список того, что вы можете скрафтить:\n'
+            for ids in x['recipes']:
+               text+=recipetocraft(ids)
+            if text=='Список того, что вы можете скрафтить:\n':
+               text='У вас пока что нет рецептов. Получить их можно, добывая ресурсы в любой локации.'
+            bot.send_message(m.chat.id, text)
             
          elif m.text=='🌲Лес':
           if x['farming']==0:
