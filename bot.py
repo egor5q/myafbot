@@ -130,7 +130,8 @@ def recipetocraft(x):
 @bot.message_handler(commands=['furnance'])
 def furnance(m):
    x=users.find_one({'id':m.from_user.id})
-   if x['craftable']['furnance']<=0:
+   if 'furnance' in x['recipes']:
+    if x['craftable']['furnance']<=0:
       if x['rock']>=100 and x['wood']>=10:
          users.update_one({'id':m.from_user.id}, {'$inc':{'rock':-100}})
          users.update_one({'id':m.from_user.id}, {'$inc':{'wood':-10}})
@@ -138,8 +139,10 @@ def furnance(m):
          bot.send_message(m.chat.id, 'Вы успешно скрафтили Печь!')
       else:
          bot.send_message(m.chat.id, 'Недостаточно ресурсов!')
-   else:
+    else:
       bot.send_message(m.chat.id, 'У вас уже есть Печь!')
+   else:
+      bot.send_message(m.chat.id, 'У вас нет этого рецепта!')
    
    
 @bot.message_handler(commands=['help'])
