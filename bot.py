@@ -24,7 +24,13 @@ recipes=['furnance', 'cookedmeat', 'fountain', 'bread', 'fishingrod', 'fishhambu
 @bot.message_handler(commands=['update'])
 def upd(m):
         if m.from_user.id==441399484:
-            users.update_many({}, {'$set':{'recipes':[]}})
+            users.update_many({}, {'$set':{'craftable':{'furnance':0,
+                       'cookedmeat':0,
+                       'fountain':0,
+                       'bread':0,
+                       'fishingrod':0,
+                       'fishhamburger':0
+          }}})
             print('yes')
 
 def recipetoname():
@@ -475,9 +481,15 @@ def createuser(id, name):
           'thouse':0,
           'building':0,
           'farming':0,
-          'recipes':[]
+          'recipes':[],
+          'craftable':{'furnance':0,
+                       'cookedmeat':0,
+                       'fountain':0,
+                       'bread':0,
+                       'fishingrod':0,
+                       'fishhamburger':0
+          }
          }
-
 
 if True:
  try:
