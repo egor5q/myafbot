@@ -253,7 +253,7 @@ def forest(id):
       recources+='🔴Рецепт: '+recipetoname(recipe)
       
    text=random.choice(woodtexts)
-   if wood==0 and rock==0 and meat==0:
+   if wood==0 and rock==0 and meat==0 and grecipe>10:
       text='В этот раз ничего добыть не удалось. Зато вы прогулялись по лесу и хорошо отдохнули!'
     
    users.update_one({'id':id}, {'$inc':{'wood':gwood}})
@@ -319,7 +319,7 @@ def hunt(id):
       recources+='🔴Рецепт: '+recipetoname(recipe)
       
    text=random.choice(hunttexts)
-   if meat==0 and fish==0 and eggs==0 and mushroom==0:
+   if meat==0 and fish==0 and eggs==0 and mushroom==0 and grecipe>10:
       text='В этот раз никого поймать не удалось - добыча была слишком быстрой.'
       
    users.update_one({'id':id}, {'$inc':{'meat':gmeat}})
@@ -407,7 +407,7 @@ def cave(id):
       recources+='🔴Рецепт: '+recipetoname(recipe)
       
    text=random.choice(cavetexts)
-   if rock==0 and iron==0 and coal==0 and gold==0 and diamond==0 and ruby==0:
+   if rock==0 and iron==0 and coal==0 and gold==0 and diamond==0 and ruby==0 and grecipe>10:
       text='В этот раз ничего добыть не удалось - пещера оказалось слишком опасной, и вы решили не рисковать.'
     
    users.update_one({'id':id}, {'$inc':{'rock':grock}})
