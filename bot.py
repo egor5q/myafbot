@@ -120,12 +120,26 @@ def recipetocraft(x):
    if x=='fountain':
       text='Колодец: 150 (Камень), 20 (Дерево) (/fountain).\n'
    if x=='bread':
-      text='Хлеб: 10 пшена (/bread).\n'
+      text='Хлеб: 10 (Пшено) (/bread).\n'
    if x=='fishingrod':
       text='Удочка: 40 (Дерево), 10 (Нитки) (/rod).\n'
    if x=='fishhamburger':
       text='Бутерброд с рыбой: 15 (Рыба), 10 (Хлеб) (/rod).\n'
    return text
+   
+@bot.message_handler(commands=['furnance'])
+def furnance(m):
+   x=users.find_one({'id':m.from_user.id})
+   if x['craftable']['furnance']<=0:
+      if x['rock']>=100 and x['wood']>=10:
+         users.update_one({'id':m.from_user.id}, {'$inc':{'rock':-100}})
+         users.update_one({'id':m.from_user.id}, {'$inc':{'wood':-10}})
+         users.update_one({'id':m.from_user.id}, {'$inc':{'craftable.furnance':1}})
+         bot.send_message(m.chat.id, 'Вы успешно скрафтили Печь!')
+      else:
+         bot.send_message(m.chat.id, 'Недостаточно ресурсов!')
+   else:
+      bot.send_message(m.chat.id, 'У вас уже есть Печь!')
    
    
 @bot.message_handler(commands=['help'])
