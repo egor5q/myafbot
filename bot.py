@@ -153,6 +153,15 @@ def text(m):
             t.start()
           else:
             bot.send_message(m.chat.id, 'Вы уже заняты добычей ресурсов, попробуйте позже.')
+            
+         elif m.text=='🐖Охота':
+          if x['farming']==0:
+            bot.send_message(m.chat.id, 'Вы отправились на охоту. Вернётесь через 15 минут.')
+            users.update_one({'id':m.from_user.id}, {'$set':{'farming':1}})
+            t=threading.Timer(900, hunt, args=[m.from_user.id])
+            t.start()
+          else:
+            bot.send_message(m.chat.id, 'Вы уже заняты добычей ресурсов, попробуйте позже.')
          
          elif m.text=='Назад':
             kb=types.ReplyKeyboardMarkup()
