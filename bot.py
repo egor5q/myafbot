@@ -355,7 +355,7 @@ def cave(id):
    else:
       iron=0
       
-   if rock<=50:
+   if rock<=75:
       rock=1
       grock=random.randint(5,14)
    else:
