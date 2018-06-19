@@ -289,6 +289,7 @@ def forest(id):
    
    grecipe=random.randint(1,100)
    if grecipe<=15:
+      x=users.find_one({'id':id})
       recipe=random.choice(recipes)
       if len(x['recipes'])<len(recipes):
          while recipe in x['recipes']:
@@ -358,6 +359,7 @@ def hunt(id):
       
    grecipe=random.randint(1,100)
    if grecipe<=15:
+      x=users.find_one({'id':id})
       recipe=random.choice(recipes)
       if len(x['recipes'])<len(recipes):
          while recipe in x['recipes']:
