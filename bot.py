@@ -45,23 +45,44 @@ def start(m):
 def inventory(m):
    x=users.find_one({'id':m.from_user.id})
    if x!=None:
-      bot.send_message(m.chat.id, 'Уголь: '+str(x['coal'])+'\n'+
-          'Железо: '+str(x['iron'])+'\n'+
-          'Золото: '+str(x['gold'])+'\n'+
-          'Алмазы: '+str(x['diamond'])+'\n'+
-          'Дерево: '+str(x['wood'])+'\n'+
-          'Камень: '+str(x['rock'])+'\n'+
-          'Деньги: '+str(x['money'])+'\n'+
-          'Песок: '+str(x['sand'])+'\n'+
-          'Соль: '+str(x['salt'])+'\n'+
-          'Рубины: '+str(x['ruby'])+'\n'+
-          'Иридий: '+str(x['iridium'])+'\n'+
-          'Сахар: '+str(x['shugar'])+'\n'+
-          'Грибы: '+str(x['mushroom'])+'\n'+
-          'Мясо: '+str(x['meat'])+'\n'+
-          'Рыба: '+str(x['fish'])+'\n'+
-          'Яйца: '+str(x['egg'])+'\n'+
-          'Вода: '+str(x['water'])+'\n')
+      text=''
+      if x['coal']>0:
+         text+='Уголь: '+str(x['coal'])+'\n'
+      if x['iron']>0:
+         text+='Железо: '+str(x['iron'])+'\n'
+      if x['gold']>0:
+         text+='Золото: '+str(x['gold'])+'\n'
+      if x['diamond']>0:
+         text+='Алмазы: '+str(x['diamond'])+'\n'
+      if x['wood']>0:
+         text+='Дерево: '+str(x['wood'])+'\n'
+      if x['rock']>0:
+         text+='Камень: '+str(x['rock'])+'\n'
+      if x['money']>0:
+         text+='Деньги: '+str(x['money'])+'\n'
+      if x['sand']>0:
+         text+='Песок: '+str(x['sand'])+'\n'
+      if x['salt']>0:
+         text+='Соль: '+str(x['salt'])+'\n'
+      if x['ruby']>0:
+         text+='Рубины: '+str(x['ruby'])+'\n'
+      if x['iridium']>0:
+         text+='Иридий: '+str(x['iridium'])+'\n'
+      if x['shugar']>0:
+         text+='Сахар: '+str(x['shugar'])+'\n'
+      if x['mushroom']>0:
+         text+='Грибы: '+str(x['mushroom'])+'\n'
+      if x['meat']>0:
+         text+='Мясо: '+str(x['meat'])+'\n'
+      if x['fish']>0:
+         text+='Рыба: '+str(x['fish'])+'\n'
+      if x['egg']>0:
+         text+='Яйца: '+str(x['egg'])+'\n'
+      if x['water']>0:
+         text+='Вода: '+str(x['water'])+'\n'
+      if text=='':
+         text='Инвентарь пуст!'
+      bot.send_message(m.chat.id, text)
       
       
 @bot.message_handler(commands=['help'])
@@ -180,6 +201,66 @@ def forest(id):
    users.update_one({'id':id}, {'$inc':{'wood':gwood}})
    users.update_one({'id':id}, {'$inc':{'meat':gmeat}})
    users.update_one({'id':id}, {'$inc':{'rock':grock}})
+   users.update_one({'id':id}, {'$set':{'farming':0}})
+   try:
+      bot.send_message(id, text+recources)
+   except:
+      pass
+   
+   
+def hunt(id):
+   hunttexts=['Вы вернулись с охоты. В этот раз удалось добыть:\n']
+   meat=random.randint(1,100)
+   eggs=random.randint(1,100)
+   mushroom=random.randint(1,100)
+   fish=random.randint(1,100)
+   gmeat=0
+   geggs=0
+   gfish=0
+   gmushroom=0
+
+   if meat<=60:
+      meat=1
+      gmeat=random.randint(3,8)
+   else:
+      meat=0
+      
+   if eggs<=25:
+      eggs=1
+      geggs=random.randint(1,4)
+   else:
+      eggs=0
+      
+   if mushroom<=1:
+      mushroom=1
+      gmushroom=1
+   else:
+      mushroom=0
+      
+   if fish<=40:
+      fish=1
+      gfish=random.randint(2,6)
+   else:
+      fish=0
+      
+   recources=''  
+   text=random.choice(woodtexts)
+   if meat==1:
+      recources+='⚪️Мясо: '+str(gmeat)+'\n'
+   if fish==1:
+      recources+='⚪️Рыба: '+str(gfish)+'\n'
+   if eggs==1:
+      recources+='🔵Яйца: '+str(geggs)+'\n'
+   if mushroom==1:
+      recources+='🔶Грибы: '+str(gmushroom)+'\n'
+   text=random.choice(hunttexts)
+   if meat==0 and fish==0 and eggs==0 and mushroom==1:
+      text='В этот раз ничего добыть не удалось - добыча была слишком быстрой.'
+    
+   users.update_one({'id':id}, {'$inc':{'meat':gmeat}})
+   users.update_one({'id':id}, {'$inc':{'fish':gfish}})
+   users.update_one({'id':id}, {'$inc':{'egg':geggs}})
+   users.update_one({'id':id}, {'$inc':{'mushroom':gmushroom}})
    users.update_one({'id':id}, {'$set':{'farming':0}})
    try:
       bot.send_message(id, text+recources)
