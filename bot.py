@@ -252,7 +252,7 @@ def cave(id):
       recources+='🔶Алмазы: '+str(gdiamond)+'\n'
    if ruby==1:
       recources+='🔶Рубины: '+str(gruby)+'\n'
-   text=random.choice(woodtexts)
+   text=random.choice(cavetexts)
    if rock==0 and iron==0 and coal==0 and gold==0 and diamond==0 and ruby==0:
       text='В этот раз ничего добыть не удалось - пещера оказалось слишком опасной, и вы решили не рисковать.'
     
