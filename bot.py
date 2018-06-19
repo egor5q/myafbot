@@ -263,9 +263,9 @@ def hunt(id):
    if mushroom==1:
       recources+='🔶Грибы: '+str(gmushroom)+'\n'
    text=random.choice(hunttexts)
-   if meat==0 and fish==0 and eggs==0 and mushroom==1:
-      text='В этот раз ничего добыть не удалось - добыча была слишком быстрой.'
-    
+   if meat==0 and fish==0 and eggs==0 and mushroom==0:
+      text='В этот раз никого поймать не удалось - добыча была слишком быстрой.'
+      
    users.update_one({'id':id}, {'$inc':{'meat':gmeat}})
    users.update_one({'id':id}, {'$inc':{'fish':gfish}})
    users.update_one({'id':id}, {'$inc':{'egg':geggs}})
