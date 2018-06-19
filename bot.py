@@ -201,6 +201,7 @@ def cave(id):
    ggold=0
    gdiamond=0
    gcoal=0
+   gruby=0
    
    if iron<=20:
       iron=1
