@@ -21,17 +21,11 @@ vip=[441399484, 55888804]
 craftable=['Бутерброд с рыбой','Приготовленное мясо','Печь','Колодец','Хлеб','Удочка','','','','','','','','','','','','']
 recipes=['furnance', 'cookedmeat', 'fountain', 'bread', 'fishingrod', 'fishhamburger']
 
-@bot.message_handler(commands=['update'])
-def upd(m):
-        if m.from_user.id==441399484:
-            users.update_many({}, {'$set':{'craftable':{'furnance':0,
-                       'cookedmeat':0,
-                       'fountain':0,
-                       'bread':0,
-                       'fishingrod':0,
-                       'fishhamburger':0
-          }}})
-            print('yes')
+#@bot.message_handler(commands=['updatecraft'])
+#def upd(m):
+#        if m.from_user.id==441399484:
+#            users.update_many({}, {'$set':{'craftable.item':0}})
+#            print('yes')
 
 def recipetoname():
    text='У рецепта нет названия, сообщите об этом разработчику.'
@@ -202,6 +196,14 @@ def text(m):
             t.start()
           else:
             bot.send_message(m.chat.id, 'Вы уже заняты добычей ресурсов, попробуйте позже.')
+        
+         elif m.text.lower()=='тест':
+            if m.from_user.id==441399484:
+                bot.send_message(m.chat.id, 'Вы отправились в пещеру. Вернётесь через 3 секунды.')
+                users.update_one({'id':m.from_user.id}, {'$set':{'farming':1}})
+                t=threading.Timer(3, cave, args=[m.from_user.id])
+                t.start()
+                        
          
          elif m.text=='Назад':
             kb=types.ReplyKeyboardMarkup()
