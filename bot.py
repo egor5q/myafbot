@@ -185,7 +185,7 @@ def text(m):
             kb.add(types.KeyboardButton('↩️Назад'))
             bot.send_message(m.chat.id, 'Дома вы можете крафтить полезные вещи и строить дополнительные строения.', reply_markup=kb)
             
-         elif m.text=='Крафт':
+         elif m.text=='⚒Крафт':
             x=users.find_one({'id':m.from_user.id})
             text='Список того, что вы можете скрафтить:\n'
             for ids in x['recipes']:
@@ -229,7 +229,7 @@ def text(m):
                 t.start()
                         
          
-         elif m.text=='Назад':
+         elif m.text=='↩️Назад':
             kb=types.ReplyKeyboardMarkup()
             kb.add('Добыча')
             kb.add('Дом')
