@@ -421,6 +421,7 @@ def cave(id):
    gdiamond=0
    gcoal=0
    gruby=0
+   x=users.find_one({'id':id})
    
    if iron<=20:
       iron=1
@@ -475,7 +476,6 @@ def cave(id):
       
    grecipe=random.randint(1,100)
    if grecipe<=15:
-      x=users.find_one({'id':id})
       recipe=random.choice(recipes)
       if len(x['recipes'])<len(recipes):
          while recipe in x['recipes']:
