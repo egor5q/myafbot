@@ -21,11 +21,11 @@ vip=[441399484, 55888804]
 craftable=['Бутерброд с рыбой','Приготовленное мясо','Печь','Колодец','Хлеб','Удочка','','','','','','','','','','','','']
 recipes=['furnance', 'cookedmeat', 'fountain', 'bread', 'fishingrod', 'fishhamburger', 'woodsword', 'farm']
 
-#@bot.message_handler(commands=['updatecraft'])
-#def upd(m):
-#        if m.from_user.id==441399484:
-#            users.update_many({}, {'$set':{'craftable.woodsword':0}})
-#            print('yes')
+@bot.message_handler(commands=['updatecraft'])
+def upd(m):
+        if m.from_user.id==441399484:
+            users.update_many({}, {'$set':{'craftable.hoe':0}})
+            print('yes')
 
 
 #@bot.message_handler(commands=['update'])
@@ -145,7 +145,7 @@ def recipetocraft(x):
    if x=='woodsword':
       text='*Деревянный меч:* 40 (Дерево) (/woodsword).\n'
    if x=='farm':
-      text='*Ферма:* 600 (Дерево), 250 (Камень), 20 (Вода), 1 (Мотыга), 30 (Минут) (/farm).\n'
+      text='*Ферма:* 600 (Дерево), 250 (Камень), 20 (Вода), 1 (Мотыга), 70 (Голод), 30 (Минут) (/farm).\n'
    return text
    
 @bot.message_handler(commands=['furnance'])
@@ -180,6 +180,22 @@ def meat(m):
          bot.send_message(m.chat.id, 'Недостаточно ресурсов!')
     else:
       bot.send_message(m.chat.id, 'Для крафта вам нужно: Печь.')
+   else:
+      bot.send_message(m.chat.id, 'У вас нет этого рецепта!')   
+      
+@bot.message_handler(commands=['farm'])
+def meat(m):
+   x=users.find_one({'id':m.from_user.id})
+   if 'farm' in x['recipes']:
+      if x['wood']>=600 and x['stone']>=250 and x['water']>=20 and x['craftable']['hoe']>=1 and x['hunger']>=70:
+         users.update_one({'id':m.from_user.id}, {'$inc':{'stone':-250}})
+         users.update_one({'id':m.from_user.id}, {'$inc':{'wood':-600}})
+         users.update_one({'id':m.from_user.id}, {'$inc':{'hunger':-70}})
+         users.update_one({'id':m.from_user.id}, {'$inc':{'craftable.hoe':-1}})
+         users.update_one({'id':m.from_user.id}, {'$push':{'buildings':'farm'}})
+         bot.send_message(m.chat.id, 'Вы успешно построили Ферму!')
+      else:
+         bot.send_message(m.chat.id, 'Недостаточно ресурсов!')
    else:
       bot.send_message(m.chat.id, 'У вас нет этого рецепта!')   
    
@@ -610,7 +626,8 @@ def createuser(id, name):
                        'bread':0,
                        'fishingrod':0,
                        'fishhamburger':0,
-                       'woodsword':0
+                       'woodsword':0,
+                       'hoe':0
           },
           'squama':0
          }
