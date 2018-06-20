@@ -482,6 +482,8 @@ def cave(id):
             recipe=random.choice(recipes)
          users.update_one({'id':id}, {'$push':{'recipes':recipe}})
          recources+='🔴Рецепт: '+recipetoname(recipe)
+      else:
+         grecipe=100
       
    text=random.choice(cavetexts)
    if rock==0 and iron==0 and coal==0 and gold==0 and diamond==0 and ruby==0 and grecipe>15:
