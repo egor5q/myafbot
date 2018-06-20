@@ -113,6 +113,10 @@ def inventory(m):
          text+='Яйца: '+str(x['egg'])+'\n'
       if x['water']>0:
          text+='Вода: '+str(x['water'])+'\n'
+      if x['squama']>0:
+         text+='Чешуя: '+str(x['squama'])+'\n'
+      if x['craftable']['cookedmeat']>0:
+         text+='Приготовленное мясо: '+str(x['craftable']['cookedmeat'])+'\n'
       if text=='':
          text='Инвентарь пуст!'
       bot.send_message(m.chat.id, text)
