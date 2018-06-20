@@ -204,8 +204,8 @@ def text(m):
             kb.add(types.KeyboardButton('🌲Лес'))
             bot.send_message(m.chat.id, 'Куда вы хотите направиться?', reply_markup=kb)
          elif m.text=='🌲Лес' and x['tforest']==0:
-            bot.send_message(m.chat.id, 'Вы отправились в лес. Вернётесь через минуту (Минута вашего времени = 15 минут жизни на острове).')
             users.update_one({'id':m.from_user.id}, {'$set':{'tforest':1}})
+            bot.send_message(m.chat.id, 'Вы отправились в лес. Вернётесь через минуту (Минута вашего времени = 15 минут жизни на острове).')
             t=threading.Timer(60, tforest, args=[m.from_user.id])
             t.start()
          elif m.text=='🔨Постройка':
@@ -250,27 +250,30 @@ def text(m):
             bot.send_message(m.chat.id, text, parse_mode='markdown')
             
          elif m.text=='🌲Лес':
+          x=users.find_one({'id':m.from_user.id})
           if x['farming']==0:
-            bot.send_message(m.chat.id, 'Вы отправились в лес. Вернётесь через 15 минут.')
             users.update_one({'id':m.from_user.id}, {'$set':{'farming':1}})
+            bot.send_message(m.chat.id, 'Вы отправились в лес. Вернётесь через 15 минут.')
             t=threading.Timer(900, forest, args=[m.from_user.id])
             t.start()
           else:
             bot.send_message(m.chat.id, 'Вы уже заняты добычей ресурсов, попробуйте позже.')
             
          elif m.text=='🕳Пещера':
+          x=users.find_one({'id':m.from_user.id})
           if x['farming']==0:
-            bot.send_message(m.chat.id, 'Вы отправились в пещеру. Вернётесь через 20 минут.')
             users.update_one({'id':m.from_user.id}, {'$set':{'farming':1}})
+            bot.send_message(m.chat.id, 'Вы отправились в пещеру. Вернётесь через 20 минут.')
             t=threading.Timer(1200, cave, args=[m.from_user.id])
             t.start()
           else:
             bot.send_message(m.chat.id, 'Вы уже заняты добычей ресурсов, попробуйте позже.')
             
          elif m.text=='🐖Охота':
+          x=users.find_one({'id':m.from_user.id})
           if x['farming']==0:
-            bot.send_message(m.chat.id, 'Вы отправились на охоту. Вернётесь через 15 минут.')
             users.update_one({'id':m.from_user.id}, {'$set':{'farming':1}})
+            bot.send_message(m.chat.id, 'Вы отправились на охоту. Вернётесь через 15 минут.')
             t=threading.Timer(900, hunt, args=[m.from_user.id])
             t.start()
           else:
