@@ -27,6 +27,14 @@ recipes=['furnance', 'cookedmeat', 'fountain', 'bread', 'fishingrod', 'fishhambu
 #            users.update_many({}, {'$set':{'craftable.item':0}})
 #            print('yes')
 
+
+@bot.message_handler(commands=['update'])
+def upd(m):
+        if m.from_user.id==441399484:
+            users.update_many({}, {'$set':{'strenght':0}})
+            users.update_many({}, {'$set':{'squama':0}})
+            print('yes')
+
 def recipetoname(x):
    text='У рецепта нет названия, сообщите об этом разработчику.'
    if x=='furnance':
@@ -490,6 +498,27 @@ def cave(id):
       bot.send_message(id, text+recources)
    except:
       pass
+   
+   mobs=['Червя-камнееда']
+   text=''
+   enemy=random.randint(1,100)
+   recources=''
+   if enemy<=20:
+      mob=random.choice(mobs)
+      text='По пути назад вы встретили '+mob+'!\n.............\n'
+      y=random.randint(1,100)
+      if y-x['strenght']<=1:
+         gleither=0
+         if mob=='Червя-камнееда':
+            leither=random.randint(1,100)
+            if leither<=50:
+               gleither=random.randint(1,5)
+               recources+='⚪️Чешуя: '+str(gleither)+'\n'
+         text2='Вы оказались сильнее, и убили врага. Полученные ресурсы:\n'+recources
+         users.update_one({'id':id}, {'$inc':{'squama':gleither}})
+      else:
+         text2='Враг был силён, и вам пришлось отступить.'
+      bot.send_message(id, text+text2)
             
       
 def tforest(id):
@@ -523,6 +552,7 @@ def thouse(id):
 def createuser(id, name):
    return{'id':id,
           'name':name,
+          'strenght':0,
           'coal':0,
           'iron':0,
           'gold':0,
@@ -559,7 +589,8 @@ def createuser(id, name):
                        'bread':0,
                        'fishingrod':0,
                        'fishhamburger':0
-          }
+          },
+          'squama':0
          }
 
 if True:
