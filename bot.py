@@ -19,13 +19,13 @@ bot = telebot.TeleBot(token)
 vip=[441399484, 55888804]
 
 craftable=['Бутерброд с рыбой','Приготовленное мясо','Печь','Колодец','Хлеб','Удочка','','','','','','','','','','','','']
-recipes=['furnance', 'cookedmeat', 'fountain', 'bread', 'fishingrod', 'fishhamburger']
+recipes=['furnance', 'cookedmeat', 'fountain', 'bread', 'fishingrod', 'fishhamburger', 'woodsword']
 
-#@bot.message_handler(commands=['updatecraft'])
-#def upd(m):
-#        if m.from_user.id==441399484:
-#            users.update_many({}, {'$set':{'craftable.item':0}})
-#            print('yes')
+@bot.message_handler(commands=['updatecraft'])
+def upd(m):
+        if m.from_user.id==441399484:
+            users.update_many({}, {'$set':{'craftable.woodsword':0}})
+            print('yes')
 
 
 #@bot.message_handler(commands=['update'])
@@ -117,6 +117,8 @@ def inventory(m):
          text+='Чешуя: '+str(x['squama'])+'\n'
       if x['craftable']['cookedmeat']>0:
          text+='Приготовленное мясо: '+str(x['craftable']['cookedmeat'])+'\n'
+      if x['craftable']['woodsword']>0:
+         text+='Деревянный меч: '+str(x['craftable']['woodsword'])+'\n'
       if text=='':
          text='Инвентарь пуст!'
       bot.send_message(m.chat.id, text)
@@ -136,6 +138,8 @@ def recipetocraft(x):
       text='*Удочка:* 40 (Дерево), 10 (Нитки) (/rod).\n'
    if x=='fishhamburger':
       text='*Бутерброд с рыбой:* 15 (Рыба), 10 (Хлеб) (/fishburger).\n'
+   if x=='woodsword':
+      text='*Деревянный меч:* 40 (Дерево) (/woodsword).\n'
    return text
    
 @bot.message_handler(commands=['furnance'])
@@ -594,7 +598,8 @@ def createuser(id, name):
                        'fountain':0,
                        'bread':0,
                        'fishingrod':0,
-                       'fishhamburger':0
+                       'fishhamburger':0,
+                       'woodsword':0
           },
           'squama':0
          }
