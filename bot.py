@@ -49,6 +49,8 @@ def recipetoname(x):
       text='Удочка'
    if x=='fishhamburger':
       text='Бутерброд с рыбой'
+   if x=='woodsword':
+      text='Деревянный меч'
    return text
 
 
