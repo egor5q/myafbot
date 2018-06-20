@@ -113,7 +113,7 @@ def inventory(m):
 def recipetocraft(x):
    text='Рецепта нет! Обратитесь к разработчику.'
    if x=='furnance':
-      text='*Печь:* 100 (Камень), 10 (Дерево) (/furnance).\n'
+      text='*Печь:* 100 (Камень), 10 (Дерево), 30 (Голод) (/furnance).\n'
    if x=='cookedmeat':
       text='*Приготовленное мясо:* 1 (Мясо), 1 (Уголь) (/meat).\n'
    if x=='fountain':
@@ -131,9 +131,10 @@ def furnance(m):
    x=users.find_one({'id':m.from_user.id})
    if 'furnance' in x['recipes']:
     if x['craftable']['furnance']<=0:
-      if x['rock']>=100 and x['wood']>=10:
+      if x['rock']>=100 and x['wood']>=10 and x['hunger']>=30:
          users.update_one({'id':m.from_user.id}, {'$inc':{'rock':-100}})
          users.update_one({'id':m.from_user.id}, {'$inc':{'wood':-10}})
+         users.update_one({'id':m.from_user.id}, {'$inc':{'hunger':-30}})
          users.update_one({'id':m.from_user.id}, {'$inc':{'craftable.furnance':1}})
          bot.send_message(m.chat.id, 'Вы успешно скрафтили Печь!')
       else:
