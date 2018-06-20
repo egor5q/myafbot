@@ -21,11 +21,11 @@ vip=[441399484, 55888804]
 craftable=['Бутерброд с рыбой','Приготовленное мясо','Печь','Колодец','Хлеб','Удочка','','','','','','','','','','','','']
 recipes=['furnance', 'cookedmeat', 'fountain', 'bread', 'fishingrod', 'fishhamburger', 'woodsword', 'farm']
 
-@bot.message_handler(commands=['updatecraft'])
-def upd(m):
-        if m.from_user.id==441399484:
-            users.update_many({}, {'$set':{'craftable.hoe':0}})
-            print('yes')
+#@bot.message_handler(commands=['updatecraft'])
+#def upd(m):
+#        if m.from_user.id==441399484:
+#            users.update_many({}, {'$set':{'craftable.hoe':0}})
+#            print('yes')
 
 
 #@bot.message_handler(commands=['update'])
