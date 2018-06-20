@@ -526,6 +526,8 @@ def cave(id):
       mob=random.choice(mobs)
       text='По пути назад вы встретили '+mob+'!\n.............\n'
       y=random.randint(1,100)
+      if 'woodsword' in x['craftable']:
+         x['strenght']+=8
       if y-x['strenght']<=1:
          gleither=0
          if mob=='Червя-камнееда':
