@@ -23,8 +23,8 @@ bot.connect()
 
 
 phone_number = '+79268508530'
-bot.send_code_request(phone_number)
-myself = bot.sign_in(phone_number, input('Enter code: '))
+#bot.send_code_request(phone_number)
+myself = bot.sign_in(phone_number, input('44486'))
 
 bot.start()
 
