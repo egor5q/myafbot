@@ -19,20 +19,25 @@ api_hash=os.environ['api_hash']
 
 
 bot = TelegramClient('session_name', api_id, api_hash)
-bot.connect()
-
 
 phone_number = '+79268508530'
 #bot.send_code_request(phone_number)
-myself = bot.sign_in(phone_number, input('44486'))
+#myself = bot.sign_in(phone_number, input('Enter code: '))
+
+
+assert bot.connect()
+if not bot.is_user_authorized():
+    bot.send_code_request(phone_number)
+    me = bot.sign_in(phone_number, input('Enter code: '))
+
 
 bot.start()
 
-bot.updates.workers = 1
+#bot.updates.workers = 1
 
-@bot.on(events.NewMessage(incoming=True, pattern='/go'))
-def handler(event):
-    event.reply('Hello!')
+#@bot.on(events.NewMessage(incoming=True, pattern='/go'))
+#def handler(event):
+#    event.reply('Hello!')
 
 
 
