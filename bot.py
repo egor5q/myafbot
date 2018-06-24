@@ -20,13 +20,13 @@ api_hash=os.environ['api_hash']
 
 bot = TelegramClient('session_name', api_id, api_hash)
 bot.connect()
-bot.start()
+
 
 phone_number = '+79268508530'
 bot.send_code_request(phone_number)
 myself = bot.sign_in(phone_number, input('Enter code: '))
 
-
+bot.start()
 
 bot.updates.workers = 1
 
