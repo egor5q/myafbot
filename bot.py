@@ -25,10 +25,10 @@ phone_number = '+79268508530'
 #myself = bot.sign_in(phone_number, input('Enter code: '))
 
 
-assert bot.connect()
-if not bot.is_user_authorized():
-    bot.send_code_request(phone_number)
-    me = bot.sign_in(phone_number, input('Enter code: '))
+#assert bot.connect()
+#if not bot.is_user_authorized():
+#    bot.send_code_request(phone_number)
+#    me = bot.sign_in(phone_number, input('Enter code: '))
 
 
 bot.start()
